@@ -27,5 +27,10 @@ export async function fetchMeetingsApi(path: string): Promise<Response> {
         ? "http"
         : "https";
 
-  return fetch(new URL(path, `${protocol}://${host}`), { cache: "no-store" });
+  const cookie = requestHeaders.get("cookie");
+
+  return fetch(new URL(path, `${protocol}://${host}`), {
+    ...(cookie ? { headers: { cookie } } : {}),
+    cache: "no-store",
+  });
 }
