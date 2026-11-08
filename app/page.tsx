@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { connection } from "next/server";
 import MeetingCard from "@/components/MeetingCard";
@@ -9,7 +11,15 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
   day: "numeric",
 });
 
-export default async function Home() {
+function HomeLoading() {
+  return (
+    <div className="loading-page page-width" aria-busy="true">
+      <p className="eyebrow" role="status">Loading the latest meeting…</p>
+    </div>
+  );
+}
+
+async function HomeContent() {
   await connection();
   const [currentMeeting, ...recentMeetings] = getMeetings();
 
@@ -40,10 +50,15 @@ export default async function Home() {
             <span>{currentMeeting.meetingType} meeting</span>
           </div>
         </div>
-        <div className="hero-art" role="img" aria-label="Soft morning light over a quiet landscape">
-          <div className="sun-disc" />
-          <div className="hill hill-back" />
-          <div className="hill hill-front" />
+        <div className="hero-art">
+          <Image
+            className="hero-image"
+            src="/meeting-landscape.svg"
+            alt="Soft morning light over a quiet landscape"
+            width={800}
+            height={600}
+            priority
+          />
           <div className="art-caption">
             <span className="caption-mark" aria-hidden="true">✳</span>
             <span>Gather, remember, renew.</span>
@@ -76,5 +91,13 @@ export default async function Home() {
         </div>
       </section>
     </main>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<HomeLoading />}>
+      <HomeContent />
+    </Suspense>
   );
 }

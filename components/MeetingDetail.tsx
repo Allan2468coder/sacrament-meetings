@@ -15,24 +15,31 @@ export default function MeetingDetail({ meeting }: { meeting: SacramentMeeting }
     { label: "Prelude music", detail: "Quiet music by the ward organist" },
     { label: "Opening hymn", detail: meeting.openingHymn.title, secondary: `Hymn ${meeting.openingHymn.number}` },
     { label: "Opening prayer", detail: meeting.openingPrayer },
-    ...(meeting.announcements ?? []).map((announcement) => ({
-      label: "Announcement",
-      detail: announcement,
-    })),
-    ...meeting.wardBusiness.map((item) => ({
-      label: "Ward business",
-      detail: item.description,
-    })),
-    ...(meeting.stakeBusiness
-      ? [{ label: "Stake business", detail: "Stake announcements and business" }]
-      : []),
+    ...(meeting.announcements?.length
+      ? meeting.announcements.map((announcement) => ({
+          label: "Announcement",
+          detail: announcement,
+        }))
+      : [{ label: "Announcements", detail: "None scheduled" }]),
+    ...(meeting.wardBusiness.length
+      ? meeting.wardBusiness.map((item) => ({
+          label: "Ward business",
+          detail: item.description,
+        }))
+      : [{ label: "Ward business", detail: "None scheduled" }]),
+    {
+      label: "Stake business",
+      detail: meeting.stakeBusiness ? "Stake announcements and business" : "None scheduled",
+    },
     { label: "Sacrament hymn", detail: meeting.sacramentHymn.title, secondary: `Hymn ${meeting.sacramentHymn.number}` },
     { label: "Administration of the sacrament", detail: "A time to remember the Savior" },
-    ...meeting.speakers.map((speaker) => ({
-      label: speaker.type === "speaker" ? "Message" : "Musical number",
-      detail: speaker.name,
-      secondary: speaker.topic,
-    })),
+    ...(meeting.speakers.length
+      ? meeting.speakers.map((speaker) => ({
+          label: speaker.type === "speaker" ? "Message" : "Musical number",
+          detail: speaker.name,
+          secondary: speaker.topic,
+        }))
+      : [{ label: "Speakers and musical numbers", detail: "None scheduled" }]),
     { label: "Closing hymn", detail: meeting.closingHymn.title, secondary: `Hymn ${meeting.closingHymn.number}` },
     { label: "Closing prayer", detail: meeting.closingPrayer },
   ];
@@ -50,6 +57,7 @@ export default function MeetingDetail({ meeting }: { meeting: SacramentMeeting }
           <p className="detail-date">{date}</p>
         </div>
         <div className="detail-banner-note">
+          Program {meeting.id} ·{" "}
           {meeting.meetingType.charAt(0).toUpperCase() + meeting.meetingType.slice(1)} meeting
         </div>
       </div>
@@ -67,7 +75,9 @@ export default function MeetingDetail({ meeting }: { meeting: SacramentMeeting }
           <ol className="program-list">
             {program.map((item, index) => (
               <li className="program-row" key={`${item.label}-${index}`}>
-                <span className="program-number">{String(index + 1).padStart(2, "0")}</span>
+                <span className="program-number" aria-hidden="true">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
                 <div>
                   <p className="program-label">{item.label}</p>
                   <p className="program-detail">{item.detail}</p>

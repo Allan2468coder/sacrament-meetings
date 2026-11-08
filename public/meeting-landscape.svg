@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" fill="none">
+  <defs>
+    <linearGradient id="sky" x1="400" y1="0" x2="400" y2="600" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#DCE8E0"/>
+      <stop offset=".58" stop-color="#F1E6D1"/>
+      <stop offset="1" stop-color="#C9D8C8"/>
+    </linearGradient>
+    <linearGradient id="ridge" x1="610" y1="230" x2="180" y2="600" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#A9BCA9"/>
+      <stop offset="1" stop-color="#78927D"/>
+    </linearGradient>
+    <linearGradient id="foreground" x1="400" y1="300" x2="400" y2="600" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#809780"/>
+      <stop offset="1" stop-color="#526F5D"/>
+    </linearGradient>
+    <filter id="glow" x="276" y="58" width="248" height="248" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="30"/>
+    </filter>
+  </defs>
+  <path fill="url(#sky)" d="M0 0h800v600H0z"/>
+  <circle cx="400" cy="182" r="94" fill="#F4DFB9" opacity=".58" filter="url(#glow)"/>
+  <circle cx="400" cy="182" r="57" fill="#F5E3C5"/>
+  <path fill="#C0CFC0" d="M0 382c96-14 145-97 248-94 95 3 127 79 218 74 119-6 153-119 334-91v329H0V382Z"/>
+  <path fill="url(#ridge)" d="M0 430c123-58 203-60 312-15 93 38 151 60 248 25 86-31 139-107 240-107v267H0V430Z"/>
+  <path fill="url(#foreground)" d="M0 487c123-68 234-51 331-12 118 48 200 47 295-8 71-41 126-51 174-36v169H0V487Z"/>
+  <path fill="#B8C6AE" fill-opacity=".72" d="M0 546c127-58 222-31 317 0 122 39 230 22 332-27 56-27 102-33 151-21v102H0v-54Z"/>
+</svg>
