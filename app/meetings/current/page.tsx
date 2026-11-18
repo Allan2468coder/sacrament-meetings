@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { connection } from "next/server";
-import { redirect } from "next/navigation";
-import { getCurrentSundayDate, getMeetings } from "@/lib/meetings-db";
+import MeetingDetail from "@/components/MeetingDetail";
+import { getUpcomingMeeting } from "@/lib/meetings-db";
 
 function CurrentMeetingLoading() {
   return (
@@ -11,21 +11,19 @@ function CurrentMeetingLoading() {
   );
 }
 
-async function RedirectToCurrentMeeting(): Promise<never> {
+async function UpcomingMeeting() {
   await connection();
-  const [currentMeeting] = getMeetings(getCurrentSundayDate());
-
-  if (!currentMeeting) {
-    redirect("/meetings");
-  }
-
-  redirect(`/meetings/${currentMeeting.id}`);
+  return (
+    <main className="page-main">
+      <MeetingDetail meeting={getUpcomingMeeting()} />
+    </main>
+  );
 }
 
 export default function CurrentMeetingPage() {
   return (
     <Suspense fallback={<CurrentMeetingLoading />}>
-      <RedirectToCurrentMeeting />
+      <UpcomingMeeting />
     </Suspense>
   );
 }

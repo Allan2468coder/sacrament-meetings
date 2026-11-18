@@ -119,8 +119,19 @@ function getMostRecentSunday(): Date {
   return sunday;
 }
 
-export function getCurrentSundayDate(): string {
-  return toDateId(getMostRecentSunday());
+function getUpcomingSunday(): Date {
+  const sunday = new Date();
+  sunday.setHours(0, 0, 0, 0);
+  sunday.setDate(sunday.getDate() + ((7 - sunday.getDay()) % 7));
+  return sunday;
+}
+
+export function getUpcomingMeeting(): SacramentMeeting {
+  return {
+    ...programs[0],
+    id: 1,
+    date: toDateId(getUpcomingSunday()),
+  };
 }
 
 export function getMeetings(date?: string | null): SacramentMeeting[] {

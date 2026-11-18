@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { connection } from "next/server";
 import MeetingCard from "@/components/MeetingCard";
-import { getMeetings } from "@/lib/meetings-db";
+import { getMeetings, getUpcomingMeeting } from "@/lib/meetings-db";
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
   weekday: "long",
@@ -21,7 +21,8 @@ function HomeLoading() {
 
 async function HomeContent() {
   await connection();
-  const [currentMeeting, ...recentMeetings] = getMeetings();
+  const currentMeeting = getUpcomingMeeting();
+  const recentMeetings = getMeetings();
 
   return (
     <main>
@@ -34,7 +35,7 @@ async function HomeContent() {
             messages from our ward family.
           </p>
           <div className="hero-actions">
-            <Link className="button button-dark" href={`/meetings/${currentMeeting.id}`}>
+            <Link className="button button-dark" href="/meetings/current">
               This Sunday’s program <span aria-hidden="true">↗</span>
             </Link>
             <Link className="text-link" href="/meetings">
