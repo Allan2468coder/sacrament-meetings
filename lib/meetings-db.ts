@@ -21,10 +21,8 @@ export async function getUpcomingMeeting(): Promise<SacramentMeeting | null> {
     closing_hymn AS "closingHymn",
     closing_prayer AS "closingPrayer"
   FROM meetings
-  ORDER BY
-    CASE WHEN date >= CURRENT_DATE THEN 0 ELSE 1 END,
-    CASE WHEN date >= CURRENT_DATE THEN date END ASC,
-    date DESC
+  WHERE date >= CURRENT_DATE
+  ORDER BY date ASC
   LIMIT 1`;
 
   return (rows[0] as unknown as SacramentMeeting) ?? null;

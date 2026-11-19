@@ -37,9 +37,11 @@ async function HomeContent() {
             messages from our ward family.
           </p>
           <div className="hero-actions">
-            <Link className="button button-dark" href="/meetings/current">
-              This Sunday’s program <span aria-hidden="true">↗</span>
-            </Link>
+            {currentMeeting && (
+              <Link className="button button-dark" href="/meetings/current">
+                This Sunday’s program <span aria-hidden="true">↗</span>
+              </Link>
+            )}
             <Link className="text-link" href="/meetings">
               Browse all meetings <span aria-hidden="true">→</span>
             </Link>
