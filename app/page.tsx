@@ -21,8 +21,10 @@ function HomeLoading() {
 
 async function HomeContent() {
   await connection();
-  const currentMeeting = getUpcomingMeeting();
-  const recentMeetings = getMeetings();
+  const [currentMeeting, recentMeetings] = await Promise.all([
+    getUpcomingMeeting(),
+    getMeetings(),
+  ]);
 
   return (
     <main>
@@ -42,14 +44,18 @@ async function HomeContent() {
               Browse all meetings <span aria-hidden="true">→</span>
             </Link>
           </div>
-          <div className="next-meeting-note">
-            <span className="status-dot" aria-hidden="true" />
-            <span>
-              Next meeting <strong>{dateFormatter.format(new Date(`${currentMeeting.date}T12:00:00`))}</strong>
-            </span>
-            <span className="note-divider" aria-hidden="true" />
-            <span>{currentMeeting.meetingType} meeting</span>
-          </div>
+          {currentMeeting ? (
+            <div className="next-meeting-note">
+              <span className="status-dot" aria-hidden="true" />
+              <span>
+                Next meeting <strong>{dateFormatter.format(new Date(`${currentMeeting.date}T12:00:00`))}</strong>
+              </span>
+              <span className="note-divider" aria-hidden="true" />
+              <span>{currentMeeting.meetingType} meeting</span>
+            </div>
+          ) : (
+            <p className="next-meeting-note">No meeting program is available yet.</p>
+          )}
         </div>
         <div className="hero-art">
           <Image
