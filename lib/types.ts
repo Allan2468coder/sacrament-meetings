@@ -35,3 +35,26 @@ export interface SacramentMeeting {
   closingHymn: Hymn;
   closingPrayer: string;
 }
+
+export type MeetingFormField =
+  | "date"
+  | "meetingType"
+  | "presiding"
+  | "conducting"
+  | "announcements"
+  | "openingHymnNumber"
+  | "openingHymnTitle"
+  | "openingPrayer"
+  | "wardBusiness"
+  | "stakeBusiness"
+  | "sacramentHymnNumber"
+  | "sacramentHymnTitle"
+  | "speakers"
+  | "closingHymnNumber"
+  | "closingHymnTitle"
+  | "closingPrayer";
+
+export interface MeetingFormActionState {
+  errors?: Partial<Record<MeetingFormField, string[]>>;
+  message: string | null;
+}

@@ -107,20 +107,86 @@ export async function getMeetingById(
   return (rows[0] as unknown as SacramentMeeting) ?? null;
 }
 
-// Mutation stubs - database implementation is planned for Week 04.
 export async function addMeeting(
-  _data: Omit<SacramentMeeting, "id">,
+  data: Omit<SacramentMeeting, "id">,
 ): Promise<SacramentMeeting> {
-  throw new Error("addMeeting: database implementation coming in Week 04");
+  const rows = await sql`INSERT INTO meetings (
+    date,
+    meeting_type,
+    presiding,
+    conducting,
+    announcements,
+    opening_hymn,
+    opening_prayer,
+    ward_business,
+    stake_business,
+    sacrament_hymn,
+    speakers,
+    closing_hymn,
+    closing_prayer
+  ) VALUES (
+    ${data.date}::date,
+    ${data.meetingType},
+    ${data.presiding},
+    ${data.conducting},
+    ARRAY(
+      SELECT jsonb_array_elements_text(${JSON.stringify(data.announcements ?? [])}::jsonb)
+    ),
+    ${JSON.stringify(data.openingHymn)}::jsonb,
+    ${data.openingPrayer},
+    ${JSON.stringify(data.wardBusiness)}::jsonb,
+    ${data.stakeBusiness},
+    ${JSON.stringify(data.sacramentHymn)}::jsonb,
+    ${JSON.stringify(data.speakers)}::jsonb,
+    ${JSON.stringify(data.closingHymn)}::jsonb,
+    ${data.closingPrayer}
+  ) RETURNING id`;
+
+  const id = Number(rows[0]?.id);
+  if (!Number.isSafeInteger(id) || id < 1) {
+    throw new Error("The meeting was inserted but its generated ID was not returned.");
+  }
+
+  const meeting = await getMeetingById(id);
+  if (!meeting) {
+    throw new Error(`Meeting ${id} was inserted but could not be loaded.`);
+  }
+  return meeting;
 }
 
 export async function updateMeeting(
-  _id: number,
-  _updates: Partial<SacramentMeeting>,
+  id: number,
+  updates: Partial<SacramentMeeting>,
 ): Promise<SacramentMeeting | null> {
-  throw new Error("updateMeeting: database implementation coming in Week 04");
+  const rows = await sql`UPDATE meetings SET
+    date = COALESCE(${updates.date ?? null}::date, date),
+    meeting_type = COALESCE(${updates.meetingType ?? null}, meeting_type),
+    presiding = COALESCE(${updates.presiding ?? null}, presiding),
+    conducting = COALESCE(${updates.conducting ?? null}, conducting),
+    announcements = CASE
+      WHEN ${updates.announcements === undefined} THEN announcements
+      ELSE ARRAY(
+        SELECT jsonb_array_elements_text(${JSON.stringify(updates.announcements ?? [])}::jsonb)
+      )
+    END,
+    opening_hymn = COALESCE(${updates.openingHymn === undefined ? null : JSON.stringify(updates.openingHymn)}::jsonb, opening_hymn),
+    opening_prayer = COALESCE(${updates.openingPrayer ?? null}, opening_prayer),
+    ward_business = COALESCE(${updates.wardBusiness === undefined ? null : JSON.stringify(updates.wardBusiness)}::jsonb, ward_business),
+    stake_business = COALESCE(${updates.stakeBusiness ?? null}::boolean, stake_business),
+    sacrament_hymn = COALESCE(${updates.sacramentHymn === undefined ? null : JSON.stringify(updates.sacramentHymn)}::jsonb, sacrament_hymn),
+    speakers = COALESCE(${updates.speakers === undefined ? null : JSON.stringify(updates.speakers)}::jsonb, speakers),
+    closing_hymn = COALESCE(${updates.closingHymn === undefined ? null : JSON.stringify(updates.closingHymn)}::jsonb, closing_hymn),
+    closing_prayer = COALESCE(${updates.closingPrayer ?? null}, closing_prayer)
+  WHERE id = ${id}
+  RETURNING id`;
+
+  if (!rows.length) {
+    return null;
+  }
+  return getMeetingById(id);
 }
 
-export async function deleteMeeting(_id: number): Promise<boolean> {
-  throw new Error("deleteMeeting: database implementation coming in Week 04");
+export async function deleteMeeting(id: number): Promise<boolean> {
+  const rows = await sql`DELETE FROM meetings WHERE id = ${id} RETURNING id`;
+  return rows.length > 0;
 }

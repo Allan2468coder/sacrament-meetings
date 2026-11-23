@@ -63,6 +63,9 @@ export default function MeetingDetail({ meeting }: { meeting: SacramentMeeting }
       </div>
 
       <div className="detail-toolbar">
+        <Link className="button button-light" href={`/meetings/${meeting.id}/edit`}>
+          Edit meeting
+        </Link>
         <PrintButton />
       </div>
 

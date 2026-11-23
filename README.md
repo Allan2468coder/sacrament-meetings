@@ -20,6 +20,23 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Managing meeting programs
+
+Leader tools are available at `/meetings/new`. Create a program there, delete a
+program from its archive card, or open a meeting and choose **Edit meeting** to
+update it. Announcements and ward business are entered one item per line.
+Speaker entries use one line each in the format `speaker | name | topic` or
+`musical-number | name | topic`.
+
+Meeting changes are validated in Server Actions, stored in the `meetings`
+database table, and revalidate the home page, meeting archive, current-meeting
+view, detail page, and JSON API. Configure `DATABASE_URL` for the Neon database
+before using the app.
+
+The project does not currently include authentication or authorization.
+Protect leader routes and mutation actions with an access-control system before
+deploying this app with a writable production database.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
