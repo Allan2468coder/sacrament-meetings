@@ -52,6 +52,7 @@ export async function generateMetadata({
     meeting.meetingType.charAt(0).toUpperCase() + meeting.meetingType.slice(1);
   const title = `${date} Meeting Program`;
   const description = `${meetingType} sacrament meeting program for Cedar Ridge Ward on ${date}. Presiding: ${meeting.presiding}. View hymns, prayers, announcements, and speakers.`;
+  const socialImages = parentMetadata.openGraph?.images ?? [];
 
   return {
     title,
@@ -59,12 +60,12 @@ export async function generateMetadata({
     openGraph: {
       title,
       description,
-      images: parentMetadata.openGraph?.images ?? [],
+      images: socialImages,
     },
     twitter: {
       title,
       description,
-      images: parentMetadata.twitter?.images ?? [],
+      images: socialImages,
     },
   };
 }
