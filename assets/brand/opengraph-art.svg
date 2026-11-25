@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1536" height="1024" viewBox="0 0 1536 1024">
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b2d4e" />
+      <stop offset="1" stop-color="#061e38" />
+    </linearGradient>
+    <linearGradient id="churchBackground" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fffaf0" />
+      <stop offset="1" stop-color="#f7f1e4" />
+    </linearGradient>
+  </defs>
+  <rect width="1536" height="1024" fill="url(#background)" />
+  <circle cx="1170" cy="486" r="448" fill="#164064" opacity=".38" />
+
+  <g fill="url(#churchBackground)">
+    <path d="M386 116 410 157v55l96 64v18l-23-12v96H423v-53c0-22-16-39-37-39s-37 17-37 39v53h-60v-96l-24 12v-18l97-64v-55z" />
+  </g>
+  <path fill="#cda33f" d="m420 340 10-10 14 14 27-31q4-4 7 0l6 6q4 3 0 7l-34 38q-3 4-7 0l-23-22q-3-3 0-6z" />
+
+  <g fill="#fffaf0" font-family="Arial, Helvetica, sans-serif" font-weight="700">
+    <text x="75" y="503" font-size="142" letter-spacing="-5">Sacrament</text>
+    <text x="75" y="658" font-size="142" letter-spacing="-4">Planner</text>
+  </g>
+  <text x="82" y="771" fill="#fffaf0" font-family="Arial, Helvetica, sans-serif" font-size="43" font-weight="400">Plan speakers, hymns, and prayers.</text>
+  <rect x="84" y="831" width="179" height="9" rx="2" fill="#cda33f" />
+
+  <rect x="914" y="207" width="542" height="646" rx="42" fill="url(#churchBackground)" />
+  <text x="968" y="304" fill="#092844" font-family="Arial, Helvetica, sans-serif" font-size="54" font-weight="700">Sunday Meeting</text>
+  <path d="M962 352h450" stroke="#c5c8c9" stroke-width="4" />
+
+  <g fill="#092844" font-family="Arial, Helvetica, sans-serif" font-size="51" font-weight="700">
+    <text x="1083" y="434">Hymns</text>
+    <text x="1083" y="585">Speakers</text>
+    <text x="1083" y="738">Prayers</text>
+  </g>
+  <g fill="#cda33f">
+    <path d="m980 435 13-13 19 19 37-42q5-5 10 0l8 8q5 4 0 9l-47 52q-5 5-10 0l-30-29q-5-4 0-9z" />
+    <path d="m980 586 13-13 19 19 37-42q5-5 10 0l8 8q5 4 0 9l-47 52q-5 5-10 0l-30-29q-5-4 0-9z" />
+    <path d="m980 739 13-13 19 19 37-42q5-5 10 0l8 8q5 4 0 9l-47 52q-5 5-10 0l-30-29q-5-4 0-9z" />
+  </g>
+  <g fill="#c4c7c9">
+    <rect x="1083" y="458" width="275" height="16" rx="8" />
+    <rect x="1083" y="610" width="284" height="16" rx="8" />
+    <rect x="1083" y="763" width="284" height="16" rx="8" />
+  </g>
+  <g stroke="#c5c8c9" stroke-width="3">
+    <path d="M962 507h450" />
+    <path d="M962 660h450" />
+  </g>
+</svg>

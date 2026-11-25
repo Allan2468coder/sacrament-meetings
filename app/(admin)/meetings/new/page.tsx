@@ -1,5 +1,11 @@
-﻿import { createMeeting } from "@/lib/actions";
+import type { Metadata } from "next";
+import { createMeeting } from "@/lib/actions";
 import MeetingForm from "../MeetingForm";
+
+export const metadata: Metadata = {
+  title: "Create Meeting",
+  description: "Prepare a Cedar Ridge Ward sacrament meeting program.",
+};
 
 export default function NewMeetingPage() {
   return (

@@ -1,4 +1,5 @@
-﻿import Link from "next/link";
+import Link from "next/link";
+import { SignOutButton } from "@/components/sign-out-button";
 
 export default function AdminLayout({
   children,
@@ -11,6 +12,7 @@ export default function AdminLayout({
           <Link className="nav-link" href="/meetings/new">
             Create meeting
           </Link>
+          <SignOutButton />
         </nav>
       </div>
       {children}

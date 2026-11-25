@@ -1,9 +1,15 @@
 import { Suspense } from "react";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import DeleteMeetingForm from "@/components/DeleteMeetingForm";
 import MeetingForm from "../../MeetingForm";
 import { updateMeeting } from "@/lib/actions";
 import { getMeetingById } from "@/lib/meetings-db";
+
+export const metadata: Metadata = {
+  title: "Edit Meeting",
+  description: "Edit a Cedar Ridge Ward sacrament meeting program.",
+};
 
 async function EditMeetingPageContent({
   params,

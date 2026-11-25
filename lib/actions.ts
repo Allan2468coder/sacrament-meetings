@@ -3,6 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import { auth, signIn } from "@/auth";
+import { AuthError } from "next-auth";
 import {
   addMeeting as addMeetingRecord,
   deleteMeeting as deleteMeetingRecord,
@@ -13,6 +15,25 @@ import type {
   SacramentMeeting,
   SpeakerItem,
 } from "@/lib/types";
+
+export async function authenticate(
+  _previousState: string | undefined,
+  formData: FormData,
+): Promise<string | undefined> {
+  try {
+    await signIn("credentials", formData);
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case "CredentialsSignin":
+          return "Invalid email or password.";
+        default:
+          return "Something went wrong.";
+      }
+    }
+    throw error;
+  }
+}
 
 const meetingTypes = ["testimony", "regular", "stake", "general"] as const;
 const dateSchema = z
@@ -97,6 +118,12 @@ const MeetingFormSchema = z.object({
 
 type MeetingFormData = z.output<typeof MeetingFormSchema>;
 
+async function requireOwnerSession() {
+  const session = await auth();
+  if (!session?.user) throw new Error("Not authenticated");
+  return session;
+}
+
 function parseMeetingFormData(
   formData: FormData,
 ):
@@ -175,6 +202,8 @@ export async function createMeeting(
   _previousState: MeetingFormActionState,
   formData: FormData,
 ): Promise<MeetingFormActionState> {
+  await requireOwnerSession();
+
   const result = parseMeetingFormData(formData);
   if (!result.success) {
     return result.state;
@@ -197,6 +226,8 @@ export async function updateMeeting(
   _previousState: MeetingFormActionState,
   formData: FormData,
 ): Promise<MeetingFormActionState> {
+  await requireOwnerSession();
+
   if (!Number.isSafeInteger(id) || id < 1) {
     return {
       message: "Meeting ID must be a positive number.",
@@ -232,6 +263,8 @@ export async function deleteMeeting(
   _previousState: MeetingFormActionState,
   formData: FormData,
 ): Promise<MeetingFormActionState> {
+  await requireOwnerSession();
+
   const idText = formData.get("id");
   const id = typeof idText === "string" ? Number(idText) : Number.NaN;
   if (!Number.isSafeInteger(id) || id < 1) {

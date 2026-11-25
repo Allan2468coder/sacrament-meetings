@@ -67,7 +67,7 @@ async function MeetingArchive({ searchParams }: MeetingsPageProps) {
         {meetings.length > 0 ? (
           <div className="archive-list">
             {meetings.map((meeting) => (
-              <MeetingCard key={meeting.id} meeting={meeting} showDelete />
+              <MeetingCard key={meeting.id} meeting={meeting} />
             ))}
           </div>
         ) : (

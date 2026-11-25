@@ -33,9 +33,12 @@ database table, and revalidate the home page, meeting archive, current-meeting
 view, detail page, and JSON API. Configure `DATABASE_URL` for the Neon database
 before using the app.
 
-The project does not currently include authentication or authorization.
-Protect leader routes and mutation actions with an access-control system before
-deploying this app with a writable production database.
+Leader routes and meeting mutations require an authenticated owner session.
+Configure `AUTH_SECRET`, `OWNER_EMAIL`, and `OWNER_PASSWORD_HASH` in `.env.local`;
+the password hash must be a bcrypt hash. `OWNER_NAME` is optional. Environment
+files are ignored by Git and should remain private. Set `NEXT_PUBLIC_SITE_URL`
+to the deployed site's canonical origin so Open Graph links use its public URL;
+it defaults to `http://localhost:3000` for local development.
 
 ## Learn More
 

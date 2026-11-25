@@ -1,8 +1,14 @@
-﻿import { Suspense } from "react";
+import { Suspense } from "react";
+import type { Metadata } from "next";
 import { connection } from "next/server";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getUpcomingMeeting } from "@/lib/meetings-db";
+
+export const metadata: Metadata = {
+  title: "This Sunday",
+  description: "Find the upcoming Cedar Ridge Ward sacrament meeting program.",
+};
 
 function CurrentMeetingLoading() {
   return (
